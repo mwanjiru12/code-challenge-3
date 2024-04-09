@@ -21,6 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("showtime").innerText = film.showtime;
     ticketNum.innerText = film.capacity - film.tickets_sold;
     document.getElementById("poster").src = film.poster;
+
+    if (film.tickets_sold === film.capacity) {
+      buyTicket.innerText = "Sold Out";
+      buyTicket.disabled = true;
+      filmsList.querySelector(`li[data-id="${film.id}"]`).classList.add("sold-out");
+    } else {
+      buyTicket.innerText = "Buy Ticket";
+      buyTicket.disabled = false;
+    }
+
     buyTicket.addEventListener("click", () => buyTicketHandler(film));
   }
 
@@ -52,6 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ticketNum.innerText = film.capacity - film.tickets_sold;
       updateFilm(film);
       createTicket(film);
+
+      if (film.tickets_sold === film.capacity) {
+        buyTicket.innerText = "Sold Out";
+        buyTicket.disabled = true;
+        filmsList.querySelector(`li[data-id="${film.id}"]`).classList.add("sold-out");
+      }
     } else {
       alert("This showing is sold out.");
     }
