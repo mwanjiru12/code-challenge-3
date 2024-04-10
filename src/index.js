@@ -13,9 +13,15 @@ fetch(filmsFullApi)
 .then(filmsMenu);
 
 el('buy-ticket').addEventListener('click', () => {
-  currentFilm.tickets_sold += 1;
-  el('ticket-num').textContent = Math.max(0, currentFilm.capacity - currentFilm.tickets_sold)
+  if (currentFilm.tickets_sold < currentFilm.capacity) {
+    currentFilm.tickets_sold += 1;
+    setTicketsRem(currentFilm);
+  }
 });
+
+function setTicketsRem(movie){
+  el('ticket-num').textContent = Math.max(0, currentFilm.capacity - currentFilm.tickets_sold)
+}
 
 function filmsMenu(films){
   filmsList.innerHTML = '';
@@ -34,9 +40,9 @@ function showMovieInfo(movie) {
   el('runtime').textContent = movie.runtime;
   el('film-info').textContent = movie.description;
   el('showtime').textContent = movie.showtime;
-  el('ticket-num').textContent = parseInt(movie.capacity) - parseInt(movie.tickets_sold);
   el('poster').src = movie.poster;
   currentFilm = movie;
+  setTicketsRem(movie);
 }
 
 function el(id) {
