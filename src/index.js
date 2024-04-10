@@ -2,6 +2,8 @@ const filmsFullApi = 'http://localhost:3000/films';
 const firstMovieUrl = `${filmsFullApi}/1`;
 const filmsList = el('films')
 
+let currentFilm;
+
 fetch(firstMovieUrl)
 .then (res => res.json())
 .then(showMovieInfo);
@@ -9,6 +11,11 @@ fetch(firstMovieUrl)
 fetch(filmsFullApi)
 .then (res => res.json())
 .then(filmsMenu);
+
+el('buy-ticket').addEventListener('click', () => {
+  currentFilm.tickets_sold += 1;
+  el('ticket-num').textContent = Math.max(0, currentFilm.capacity - currentFilm.tickets_sold)
+});
 
 function filmsMenu(films){
   filmsList.innerHTML = '';
@@ -18,7 +25,7 @@ function filmsMenu(films){
     filmLi.classList.add('film');
     filmLi.classList.add('item');
     filmsList.appendChild(filmLi);
-  });
+  })
 }
 
 function showMovieInfo(movie) {
@@ -28,6 +35,7 @@ function showMovieInfo(movie) {
   el('showtime').textContent = movie.showtime;
   el('ticket-num').textContent = parseInt(movie.capacity) - parseInt(movie.tickets_sold);
   el('poster').src = movie.poster;
+  currentFilm = movie;
 }
 
 function el(id) {
