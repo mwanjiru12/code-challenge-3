@@ -25,7 +25,8 @@ function filmsMenu(films){
     filmLi.classList.add('film');
     filmLi.classList.add('item');
     filmsList.appendChild(filmLi);
-  })
+    filmLi.addEventListener('click', () => showMovieInfo(film)); 
+  });
 }
 
 function showMovieInfo(movie) {
